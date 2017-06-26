@@ -37,18 +37,15 @@ public class FetchMerchantsTask extends AsyncTask<String,Void,ArrayList<Shop>> {
             JSONArray merchantsArray = new JSONArray(merchantJsonStr);
             for(int i=0; i<merchantsArray.length(); i++){
                 JSONObject jsonMerchant = merchantsArray.getJSONObject(i);
-                String merId = jsonMerchant.getString("id");
                 String merName = jsonMerchant.getString("legalName");
-                String merImageUrl = YUMMY_BASE_DOMAIN+jsonMerchant.getString("image");
                 JSONObject jsonAddress = jsonMerchant.getJSONObject("contactPoint");
                 String merAddress = jsonAddress.getString("streetAddress");
-                JSONObject jsonReview = jsonMerchant.getJSONObject("aggregateRating");
-                String review = jsonReview.getString("ratingValue");
+                JSONObject jsonmerchantCategory = jsonMerchant.getJSONObject("merchantCategory");
+                String meralternateName = jsonmerchantCategory.getString("alternateName");
 
-                JSONObject jsonMerCategory = jsonMerchant.getJSONObject("merchantCategory");
-                String category = jsonMerCategory.getString("name");
 
-                merchants.add(new Shop(merId, merName, category, merAddress, merImageUrl,review));
+
+                merchants.add(new Shop(merName,merAddress, meralternateName));
             }
 
             Log.d(LOG_TAG, "Merchant Fetching Complete. " + merchants.size() + "merchants inserted");
